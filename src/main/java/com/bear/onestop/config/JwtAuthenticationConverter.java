@@ -25,15 +25,20 @@ public class JwtAuthenticationConverter implements Converter<Jwt, JwtAuthenticat
     private Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
         // Retrieve the roles claim as a List of Strings
         String role = jwt.getClaimAsString("roles");
-
+//        List<String> roles = jwt.getClaim("roles");
+//        System.out.println("role "+roles);
+//        System.out.println(jwt);
+//        for (String role : roles) {
+//            System.out.print(role + " ");
+//        }
         if (role == null || role.isEmpty()) {
             return Collections.emptyList();
         }
         List<GrantedAuthority> authorities = new ArrayList<>();
 
         // 2. Format to Spring Standard uppercase format (e.g., "admin" -> "ROLE_ADMIN")
-        String formattedRole = "ROLE_" + role.toUpperCase();
-        authorities.add(new SimpleGrantedAuthority(formattedRole));
+//        String formattedRole = "ROLE_" + roles[0].toUpperCase();
+//        authorities.add(new SimpleGrantedAuthority(formattedRole));
 
         return authorities;
 //        Map<String, Object> realmAccess = jwt.getClaim("realm_access");

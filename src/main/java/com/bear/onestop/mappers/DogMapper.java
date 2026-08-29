@@ -9,9 +9,10 @@ import org.mapstruct.ReportingPolicy;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DogMapper {
 
-    //CreateTicketTypeRequest fromDto(CreateTicketTypeRequestDto dto);
     CreateDogRequest fromDto (CreateDogRequestDto createDogRequestDto);
     CreateDogResponseDto toDto(Dog dog);
 
+    ListDogResponseDto toListDogResponseDto(Dog dog);
+    GetDogDetailsResponseDto toGetDogDetailsResponseDto(Dog dog);
 
 }

@@ -7,6 +7,8 @@ import com.bear.onestop.data.UpdateEventRequest;
 import com.bear.onestop.data.dtos.CreateEventRequestDto;
 import com.bear.onestop.data.dtos.CreateEventResponseDto;
 
+import com.bear.onestop.data.dtos.GetEventDetailsResponseDto;
+import com.bear.onestop.data.dtos.ListEventResponseDto;
 import com.bear.onestop.data.entities.Event;
 import com.bear.onestop.mappers.EventMapper;
 import com.bear.onestop.services.EventService;
@@ -27,6 +29,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import static com.bear.onestop.util.JwtUtil.parseUserId;
 
 @RestController
 @RequestMapping(path = "/api/v1/events")
@@ -65,36 +69,37 @@ public class EventController {
 //        return ResponseEntity.ok(updateEventResponseDto);
 //    }
 //
-//    @GetMapping
-//    public ResponseEntity<Page<ListEventResponseDto>> listEvents(
-//            @AuthenticationPrincipal Jwt jwt, Pageable pageable
-//    ) {
-//        UUID userId = parseUserId(jwt);
-//        Page<Event> events = eventService.listEventsForOrganizer(userId, pageable);
-//        return ResponseEntity.ok(
-//                events.map(eventMapper::toListEventResponseDto)
-//        );
-//    }
-//
-//    @GetMapping(path = "/{eventId}")
-//    public ResponseEntity<GetEventDetailsResponseDto> getEvent(
-//            @AuthenticationPrincipal Jwt jwt,
-//            @PathVariable UUID eventId
-//    ) {
-//        UUID userId = parseUserId(jwt);
-//        return eventService.getEventForOrganizer(userId, eventId)
-//                .map(eventMapper::toGetEventDetailsResponseDto)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.notFound().build());
-//    }
-//
-//    @DeleteMapping(path = "/{eventId}")
-//    public ResponseEntity<Void> deleteEvent(
-//            @AuthenticationPrincipal Jwt jwt,
-//            @PathVariable UUID eventId
-//    ) {
-//        UUID userId = parseUserId(jwt);
-//        eventService.deleteEventForOrganizer(userId, eventId);
-//        return ResponseEntity.noContent().build();
-//    }
+    @GetMapping
+    public ResponseEntity<Page<ListEventResponseDto>> listEvents(
+            @AuthenticationPrincipal Jwt jwt, Pageable pageable
+    ) {
+        UUID userId = parseUserId(jwt);
+        //call map on page obj,not stream map
+        Page<Event> events = eventService.listEventsForChiefstaff(userId, pageable);
+        return ResponseEntity.ok(
+                events.map(eventMapper::toListEventResponseDto)
+        );
+    }
+
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<GetEventDetailsResponseDto> getEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId
+    ) {
+        UUID userId = parseUserId(jwt);
+        return eventService.getEventForChiefstaff(userId, eventId)
+                .map(eventMapper::toGetEventDetailsResponseDto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping(path = "/{eventId}")
+    public ResponseEntity<Void> deleteEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId
+    ) {
+        UUID userId = parseUserId(jwt);
+        eventService.deleteEventForChiefstaff(userId, eventId);
+        return ResponseEntity.noContent().build();
+    }
 }

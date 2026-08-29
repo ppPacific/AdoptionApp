@@ -2,9 +2,7 @@ package com.bear.onestop.mappers;
 
 import com.bear.onestop.data.CreateEventRequest;
 import com.bear.onestop.data.CreateTicketTypeRequest;
-import com.bear.onestop.data.dtos.CreateEventRequestDto;
-import com.bear.onestop.data.dtos.CreateEventResponseDto;
-import com.bear.onestop.data.dtos.CreateTicketTypeRequestDto;
+import com.bear.onestop.data.dtos.*;
 
 import com.bear.onestop.data.entities.Event;
 import com.bear.onestop.data.entities.TicketType;
@@ -18,5 +16,27 @@ public interface EventMapper {
     CreateEventRequest fromDto (CreateEventRequestDto createEventRequestDto);
     CreateEventResponseDto toDto(Event event);
 
+    ListEventTicketTypeResponseDto toDto(TicketType ticketType);
 
+    ListEventResponseDto toListEventResponseDto(Event event);
+
+    GetEventDetailsTicketTypesResponseDto toGetEventDetailsTicketTypesResponseDto(
+            TicketType ticketType);
+
+    GetEventDetailsResponseDto toGetEventDetailsResponseDto(Event event);
+
+//    UpdateTicketTypeRequest fromDto(UpdateTicketTypeRequestDto dto);
+//
+//    UpdateEventRequest fromDto(UpdateEventRequestDto dto);
+//
+//    UpdateTicketTypeResponseDto toUpdateTicketTypeResponseDto(TicketType ticketType);
+//
+//    UpdateEventResponseDto toUpdateEventResponseDto(Event event);
+
+    ListPublishedEventResponseDto toListPublishedEventResponseDto(Event event);
+
+    GetPublishedEventDetailsTicketTypesResponseDto toGetPublishedEventDetailsTicketTypesResponseDto(
+            TicketType ticketType);
+
+    GetPublishedEventDetailsResponseDto toGetPublishedEventDetailsResponseDto(Event event);
 }

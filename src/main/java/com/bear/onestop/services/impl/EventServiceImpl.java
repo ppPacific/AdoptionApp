@@ -2,16 +2,21 @@ package com.bear.onestop.services.impl;
 
 import com.bear.onestop.data.CreateEventRequest;
 import com.bear.onestop.data.entities.Event;
+import com.bear.onestop.data.entities.EventStatusEnum;
 import com.bear.onestop.data.entities.TicketType;
 import com.bear.onestop.data.entities.User;
 import com.bear.onestop.exception.UserNotFoundException;
 import com.bear.onestop.repositories.EventRepository;
 import com.bear.onestop.repositories.UserRepository;
 import com.bear.onestop.services.EventService;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
+import java.util.Optional;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -60,5 +65,36 @@ public class EventServiceImpl implements EventService {
 
         return eventRepository.save(eventToCreate);
 
+    }
+
+    @Override
+    public Page<Event> listEventsForChiefstaff(UUID chiefId, Pageable pageable) {
+        return eventRepository.findByChiefstaffId(chiefId, pageable);
+    }
+
+    @Override
+    public Optional<Event> getEventForChiefstaff(UUID chiefId, UUID id) {
+        return eventRepository.findByIdAndChiefstaffId(id, chiefId);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEventForChiefstaff(UUID organizerId, UUID id) {
+        getEventForChiefstaff(organizerId, id).ifPresent(eventRepository::delete);
+    }
+
+    @Override
+    public Page<Event> listPublishedEvents(Pageable pageable) {
+        return eventRepository.findByStatus(EventStatusEnum.PUBLISHED, pageable);
+    }
+
+    @Override
+    public Page<Event> searchPublishedEvents(String query, Pageable pageable) {
+        return eventRepository.searchEvents(query, pageable);
+    }
+
+    @Override
+    public Optional<Event> getPublishedEvent(UUID id) {
+        return eventRepository.findByIdAndStatus(id, EventStatusEnum.PUBLISHED);
     }
 }
