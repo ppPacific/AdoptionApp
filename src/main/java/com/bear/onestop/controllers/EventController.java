@@ -57,7 +57,7 @@ public class EventController {
 //            @PathVariable UUID eventId,
 //            @Valid @RequestBody UpdateEventRequestDto updateEventRequestDto) {
 //        UpdateEventRequest updateEventRequest = eventMapper.fromDto(updateEventRequestDto);
-//        UUID userId = parseUserId(jwt);
+//        String userId = parseUserId(jwt);
 //
 //        Event updatedEvent = eventService.updateEventForOrganizer(
 //                userId, eventId, updateEventRequest

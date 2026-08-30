@@ -12,12 +12,12 @@ import java.util.UUID;
 public interface EventService {
 
     Event createEvent(String chiefstaffId, CreateEventRequest event);
-    Page<Event> listEventsForChiefstaff(UUID staffId, Pageable pageable);
-    Optional<Event> getEventForChiefstaff(UUID staffId, UUID id);
+    Page<Event> listEventsForChiefstaff(String staffId, Pageable pageable);
+    Optional<Event> getEventForChiefstaff(String staffId, UUID id);
 
     //Event updateEventForOrganizer(UUID organizerId, UUID id, UpdateEventRequest event);
 
-    void deleteEventForChiefstaff(UUID organizerId, UUID id);
+    void deleteEventForChiefstaff(String staffId, UUID id);
 
     Page<Event> listPublishedEvents(Pageable pageable);
 

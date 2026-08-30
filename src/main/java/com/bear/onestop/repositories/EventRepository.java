@@ -14,9 +14,9 @@ import java.util.UUID;
 
 @Repository
 public interface EventRepository extends JpaRepository<Event, UUID> {
-    Page<Event> findByChiefstaffId(UUID organizerId, Pageable pageable);
+    Page<Event> findByChiefstaffId(UUID chiefstaffId, Pageable pageable);
 
-    Optional<Event> findByIdAndChiefstaffId(UUID id, UUID organizerId);
+    Optional<Event> findByIdAndChiefstaffId(UUID id, UUID chiefstaffId);
 
     Page<Event> findByStatus(EventStatusEnum status, Pageable pageable);
 
