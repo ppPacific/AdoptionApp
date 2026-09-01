@@ -9,9 +9,13 @@ import com.bear.onestop.repositories.DogRepository;
 import com.bear.onestop.repositories.UserRepository;
 import com.bear.onestop.services.DogService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -49,5 +53,16 @@ public class DogServiceImpl implements DogService {
         dogToCreate.setKennelLocation(dog.getKennelLocation());
         dogToCreate.setIsPublished(dog.getIsPublished());
         return dogRepository.save(dogToCreate);
+    }
+
+    @Override
+    public Page<Dog> listDogs(Pageable pageable) {
+        return dogRepository.findAll(pageable);
+    }
+
+    @Override
+    public Optional<Dog> getDogDetails(UUID id) {
+
+        return dogRepository.findById(id);
     }
 }

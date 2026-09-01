@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,4 +27,6 @@ public class GetDogDetailsResponseDto {
     private DogStatusEnum status;
     private String kennelLocation;
     private Boolean isPublished;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 }
