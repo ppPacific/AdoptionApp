@@ -8,8 +8,8 @@ public final class JwtUtil {
     private JwtUtil(){
     }
 
-    public static UUID parseUserId(Jwt jwt) {
-        return UUID.fromString(jwt.getSubject());
+    public static String parseUserId(Jwt jwt) {
+        return jwt.getSubject();
     }
 
 

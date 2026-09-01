@@ -68,19 +68,27 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Page<Event> listEventsForChiefstaff(UUID chiefId, Pageable pageable) {
-        return eventRepository.findByChiefstaffId(chiefId, pageable);
+    public Page<Event> listEventsForChiefstaff(String chiefstaffClerkId, Pageable pageable) {
+        User staff = userRepository.findByClerkId(chiefstaffClerkId)
+                .orElseThrow(()-> new UserNotFoundException(
+                        String.format("User with ID '%s' not found", chiefstaffClerkId)
+                ));
+        return eventRepository.findByChiefstaffId(staff.getId(), pageable);
     }
 
     @Override
-    public Optional<Event> getEventForChiefstaff(UUID chiefId, UUID id) {
-        return eventRepository.findByIdAndChiefstaffId(id, chiefId);
+    public Optional<Event> getEventForChiefstaff(String chiefstaffClerkId, UUID id) {
+        User staff = userRepository.findByClerkId(chiefstaffClerkId)
+                .orElseThrow(()-> new UserNotFoundException(
+                        String.format("User with ID '%s' not found", chiefstaffClerkId)
+                ));
+        return eventRepository.findByIdAndChiefstaffId(id, staff.getId());
     }
 
     @Override
     @Transactional
-    public void deleteEventForChiefstaff(UUID organizerId, UUID id) {
-        getEventForChiefstaff(organizerId, id).ifPresent(eventRepository::delete);
+    public void deleteEventForChiefstaff(String chiefstaffClerkId, UUID id) {
+        getEventForChiefstaff(chiefstaffClerkId, id).ifPresent(eventRepository::delete);
     }
 
     @Override

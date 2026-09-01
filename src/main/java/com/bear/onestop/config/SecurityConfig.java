@@ -23,8 +23,8 @@ public class SecurityConfig {
                         authorize
                                 .requestMatchers(HttpMethod.GET, "/api/v1/published-events/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/v1/events").permitAll()
-                                .requestMatchers("/api/v1/events").permitAll()
-                                .requestMatchers("/api/v1/dogs").permitAll()
+                                .requestMatchers("/api/v1/events").hasRole("admin")
+                                .requestMatchers("/api/v1/dogs").hasRole("admin")
                                 .requestMatchers("/api/v1/ticket-validations").hasRole("admin")
                                 // Catch all rule
                                 .anyRequest().authenticated())

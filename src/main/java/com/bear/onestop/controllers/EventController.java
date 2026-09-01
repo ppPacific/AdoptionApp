@@ -73,7 +73,7 @@ public class EventController {
     public ResponseEntity<Page<ListEventResponseDto>> listEvents(
             @AuthenticationPrincipal Jwt jwt, Pageable pageable
     ) {
-        UUID userId = parseUserId(jwt);
+        String userId = parseUserId(jwt);
         //call map on page obj,not stream map
         Page<Event> events = eventService.listEventsForChiefstaff(userId, pageable);
         return ResponseEntity.ok(
@@ -86,7 +86,7 @@ public class EventController {
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable UUID eventId
     ) {
-        UUID userId = parseUserId(jwt);
+        String userId = parseUserId(jwt);
         return eventService.getEventForChiefstaff(userId, eventId)
                 .map(eventMapper::toGetEventDetailsResponseDto)
                 .map(ResponseEntity::ok)
@@ -98,7 +98,7 @@ public class EventController {
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable UUID eventId
     ) {
-        UUID userId = parseUserId(jwt);
+        String userId = parseUserId(jwt);
         eventService.deleteEventForChiefstaff(userId, eventId);
         return ResponseEntity.noContent().build();
     }
